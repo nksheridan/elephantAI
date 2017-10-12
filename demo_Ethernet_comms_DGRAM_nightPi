@@ -1,0 +1,54 @@
+import socket
+import time
+
+UDP_IP = "THIS IS OUR OWN IP TO LISTEN ON"
+UDP_PORT = 5005
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
+
+print("Debug: I am the night-time elephant detection pi")
+time.sleep(2)
+print("Debug: I am waiting for my message from the daytime elephant detection pi")
+time.sleep(2)
+print("Debug: I will stop listening when I receive a data message that contains NIGHT")
+time.sleep(2)
+print("Debug: I am waiting now!")
+
+while True:
+	data = sock.recvfrom(1024)
+	print("Debug: got the following message from dayPi: ", data[0])
+	if data[0] == "NIGHT":
+		break
+
+print("Debug: I got the NIGHT message so I quite waiting for a message!")
+time.sleep(2)
+print("Debug: Now I will perform elephant detection and monitor light condition")
+time.sleep(2)
+print("Debug: I will prepare to send a message to the dayPi when morning occurs!")
+time.sleep(2)
+
+#variable for light condition. Updated by light sensor
+light = 0
+#light is 0 for dark, and 1 for light
+
+print("Debug: Currently light is ", light)
+time.sleep(2)
+light = 1 
+#simulate light being 1
+print("Debug: Currently light is ", light)
+time.sleep(2)
+print("Debug: Now it is time to message the dayPi snce light is 1")
+
+UDP_IP = "IP OF THE dayPi"
+# IP of the dayPi
+
+MESSAGE = "DAY"
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+
+print("Debug: I sent a message to the dayPi: ", MESSAGE)
+time.sleep(2)
+print("Debug: Now I wait for a message back when it is night again!")
+sock.close()
