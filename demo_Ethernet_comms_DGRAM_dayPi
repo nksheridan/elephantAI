@@ -1,0 +1,43 @@
+import socket
+import time
+
+UDP_IP = "THIS IS THE IP OF DETECTION DEVICE TO BE SENT THE MESSAGE"
+
+UDP_PORT = 5005
+
+MESSAGE= "NIGHT"
+
+print("Debug: UDP_IP is ", UDP_IP)
+print("Debug: UDP_PORT is ", UDP_PORT)
+time.sleep(2)
+print("Debug: I am the daytime elephant detection device and I am monitoring light levels")
+time.sleep(2)
+print("Debug: It is night time time now! I will send a message telling the night detection device")
+time.sleep(2)
+print("Debug: Sending my message")
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+
+print("Debug: Sent messsage. Now I will begin waiting for a message back when it is morning")
+time.sleep(2)
+
+sock.close()
+print("Debug: I will create a socket and wait listening to it")
+print("Debug: I am going to start waiting now")
+
+UDP_IP = "THIS IS THE IP OF THIS DETECTION DEVICE TO LISTEN ON"
+# bind our own IP to listen
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
+
+while True:
+	data = sock.recvfrom(1024)
+	print("Debug: I just got a message from night-time detection device: ", data)
+	if data[0] == "DAY":
+		break
+
+print("Debug: I got a message saying it is DAY. Time to begin my detection again")
+
+sock.close()
