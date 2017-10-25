@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 
 def CheckPIR():
     # dependencies are RPi.GPIO and time
-    # returns whats_here with "NOTHING HERE" or "SOMETHING HERE"
+    # returns PIR_IS with either 0 or 1 depending if high or low
     time.sleep(1)
     #don't rush the PIR!
     GPIO.setmode(GPIO.BOARD)
